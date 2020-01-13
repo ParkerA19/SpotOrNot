@@ -15,7 +15,7 @@ var cookieParser = require('cookie-parser');
 
 var client_id = ''; // Your client id
 var client_secret = ''; // Your secret
-var redirect_uri = ''; // Your redirect uri
+var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -34,13 +34,13 @@ var generateRandomString = function(length) {
 
 var stateKey = 'spotify_auth_state';
 
-var app = express();
+var auth = express();
 
-app.use(express.static(__dirname + '/public'))
+auth.use(express.static(__dirname + '/public'))
    .use(cors())
    .use(cookieParser());
 
-app.get('/login', function(req, res) {
+auth.get('/login', function(req, res) {
 
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -57,7 +57,7 @@ app.get('/login', function(req, res) {
     }));
 });
 
-app.get('/callback', function(req, res) {
+auth.get('/callback', function(req, res) {
 
   // your application requests refresh and access tokens
   // after checking the state parameter
@@ -65,6 +65,8 @@ app.get('/callback', function(req, res) {
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
+
+  // console.error('state: ', state);
 
   if (state === null || state !== storedState) {
     res.redirect('/#' +
@@ -119,7 +121,7 @@ app.get('/callback', function(req, res) {
   }
 });
 
-app.get('/refresh_token', function(req, res) {
+auth.get('/refresh_token', function(req, res) {
 
   // requesting access token from refresh token
   var refresh_token = req.query.refresh_token;
@@ -144,4 +146,6 @@ app.get('/refresh_token', function(req, res) {
 });
 
 console.log('Listening on 8888');
-app.listen(8888);
+auth.listen(8888);
+
+module.exports = auth;
