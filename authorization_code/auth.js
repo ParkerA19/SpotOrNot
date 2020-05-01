@@ -13,9 +13,10 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-var client_id = ''; // Your client id
-var client_secret = ''; // Your secret
-var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+var client_id = '***REMOVED***'; // Your client id
+var client_secret = '65987721850b4093b70f64bd31c3efbf'; // Your secret
+var redirect_uri2 = 'http://localhost:8888/callback'; // Your redirect uri
+var redirect_uri = 'http://localhost:3000/auth/callback';
 
 /**
  * Generates a random string containing numbers and letters
@@ -46,13 +47,13 @@ auth.get('/login', function(req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email';
+  var scope = 'user-read-private user-read-email playlist-modify-private playlist-read-collaborative';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
       client_id: client_id,
       scope: scope,
-      redirect_uri: redirect_uri,
+      redirect_uri: redirect_uri2,
       state: state
     }));
 });
@@ -61,25 +62,25 @@ auth.get('/callback', function(req, res) {
 
   // your application requests refresh and access tokens
   // after checking the state parameter
-
+  console.log('you are freaking CALLING BACK RN');
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
 
-  // console.error('state: ', state);
-
   if (state === null || state !== storedState) {
+    console.log('first case');
     res.redirect('/#' +
       querystring.stringify({
         error: 'state_mismatch'
       }));
   } else {
+    console.log('second case');
     res.clearCookie(stateKey);
     var authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code: code,
-        redirect_uri: redirect_uri,
+        redirect_uri: redirect_uri2,
         grant_type: 'authorization_code'
       },
       headers: {
@@ -89,7 +90,11 @@ auth.get('/callback', function(req, res) {
     };
 
     request.post(authOptions, function(error, response, body) {
+      console.log('error: ', error)
+      console.log('statusCode', response.statusCode);
+      console.log('body: ', body)
       if (!error && response.statusCode === 200) {
+        console.log('NO error adn statusCode equals 200');
 
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
@@ -112,6 +117,7 @@ auth.get('/callback', function(req, res) {
             refresh_token: refresh_token
           }));
       } else {
+        console.log('invalid token boi');
         res.redirect('/#' +
           querystring.stringify({
             error: 'invalid_token'
