@@ -41,7 +41,7 @@ const styles = {
   image: {
     // margin: '10px',
     height: '300px',
-    width: '300px'
+    width: '300px',
   },
   info: {
     // background: '#696969',
@@ -52,7 +52,7 @@ const styles = {
     flexWrap: 'wrap',
     display: 'flex',
     paddingTop: '5px',
-    paddingBottom: '10px'
+    paddingBottom: '10px',
   },
   name: {
     // color: '#FFFFFF',
@@ -71,13 +71,13 @@ const styles = {
     padding: '5px',
     color: '#FFFFFF',
     flexDirection: 'column',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
     // justifyContent: 'center'
   },
   owner: {
     color: '#808080',
     paddingTop: '5px',
-    paddingBottom: '5px'
+    paddingBottom: '5px',
   },
   playlist: {
     background: '#000000',
@@ -88,11 +88,11 @@ const styles = {
     flexDirections: 'column',
     flexWrap: 'wrap',
     display: 'flex',
-    margin: '10px'
+    margin: '10px',
   },
   playlistLink: {
-    textDecoration: 'none'
-  }
+    textDecoration: 'none',
+  },
 }
 
 export default PlaylistItem;

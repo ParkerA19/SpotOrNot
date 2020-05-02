@@ -44,7 +44,7 @@ class Playlists extends React.Component {
   getPlaylists(token) {
     console.log('getting playlists')
     $.ajax({
-      url: "https://api.spotify.com/v1/me/playlists?limit=50",
+      url: "https://api.spotify.com/v1/me/playlists?limit=5",
       type: "GET",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
@@ -77,20 +77,22 @@ class Playlists extends React.Component {
       const path = "/Playlists/" + p.id
       return (
         <Route key={p.id} path={path} render={() => (
-          <Playlist playlist={p} />
+          <Playlist token={this.props.token} playlist={p} />
         )}/>
       );
     })
 
     return (
-      <Navigation>
+      // <Navigation>
+      <div>
         <Route exact={true} path="/Playlists" render={() => (
           <div style={styles.layout}>
             {playlists}
           </div>
         )}/>
         {playlistPage}
-      </Navigation>
+      </div>
+      // </Navigation>
     );
   }
 }

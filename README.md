@@ -66,3 +66,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+I changed react-spotify-web-playback index.js and spotify.js files to allow for context_uri
+In SpotifyPlayer either have context_uri option or uris and use a single playlist or album uri

@@ -53,13 +53,13 @@ const Home = props => {
       </header>
     </div> );
 
-    const page = props.token ? homepage : loginpage
+    const page = props.token ? homepage : loginpage;
 
-  return (
-      <Navigation>
-        {page}
-      </Navigation>
-  );
+  return page;
+      // <Navigation>
+        // {page}
+      // </Navigation>
+  // );
 }
 
 export default Home;
