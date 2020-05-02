@@ -34,7 +34,7 @@ const Root = (props) => (
     <div style ={{
       display: 'flex'
     }} {...props} />
-  )
+  );
   
   const Sidebar = (props) => (
     <div style={{
@@ -43,7 +43,7 @@ const Root = (props) => (
       overflow: 'auto',
       background:'#eee'
     }} {...props} />
-  )
+  );
   
   const SidebarItem = (props) => (
     <div style={{
@@ -52,7 +52,7 @@ const Root = (props) => (
       overflow: 'hidden',
       padding: '5px 10px'
     }} {...props} />
-  )
+  );
   
   const Main = (props) => (
     <div style={{
@@ -62,6 +62,6 @@ const Root = (props) => (
     }}>
       <div style={{ padding: '0px' }} {...props}/>
     </div>
-  )
+  );
 
 export default Navigation;

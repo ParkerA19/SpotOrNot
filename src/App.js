@@ -6,14 +6,15 @@ import hash from './hash';
 import './css/App.css';
 
 import Home from './components/Home'
+import Navigation from "./components/Navigation";
 import Playlists from './components/Playlists'
 import Player from './components/Player'
 // const auth = require('./authorization_code/auth');
 // var auth = require('./authorization_code/auth');
 // var express = require('express'); // Express web server framework
 
-var client_id = ''; // Your client id
-var client_secret = ''; // Your secret
+var client_id = '***REMOVED***'; // Your client id
+var client_secret = '65987721850b4093b70f64bd31c3efbf'; // Your secret
 
 class App extends Component {
   constructor() {
@@ -27,10 +28,10 @@ class App extends Component {
         },
         name: "",
         artists: [{ name: "" }],
-        duration_ms: 0
+        duration_ms: 0,
       },
       is_playing: "Paused",
-      progress_ms: 0
+      progress_ms: 0,
     };
     this.getCurrentlyPlaying = this.getCurrentlyPlaying.bind(this);
   }
@@ -70,28 +71,30 @@ class App extends Component {
   }
 
   render() {
-    const welcomePaths = ['', '/', '/callback', '/auth/callback', '/Home']
+    const welcomePaths = ['', '/', '/callback', '/auth/callback', '/Home'];
 
     return (
       <Router>
-        <div>
-          <Route exact={true} path={welcomePaths} render={() => (
-            <Home token={this.state.token} />
-          )}/>
-          <Route path='/Player' render={() => (
-            <Player
-              item={this.state.item}
-              is_playing={this.state.is_playing}
-              progress_ms={this.state.progress_ms}
-              token={this.state.token}
-            />
-          )}/>
-          <Route path='/Playlists' render={() => (
-            <Playlists
-              token={this.state.token}
-            />
-          )}/>
-        </div>
+        <Navigation> 
+          <div>
+            <Route exact={true} path={welcomePaths} render={() => (
+              <Home token={this.state.token} />
+            )}/>
+            <Route path='/Player' render={() => (
+              <Player
+                item={this.state.item}
+                is_playing={this.state.is_playing}
+                progress_ms={this.state.progress_ms}
+                token={this.state.token}
+              />
+            )}/>
+            <Route path='/Playlists' render={() => (
+              <Playlists
+                token={this.state.token}
+              />
+            )}/>
+          </div>
+        </Navigation>
       </Router>
     );
   }
