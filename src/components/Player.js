@@ -1,19 +1,6 @@
 import React from "react";
 import "../css/Player.css";
 
-// const props = {
-//     item: {
-//     album: {
-//     images: [{ url: "" }]
-//     },
-//     name: "No artist",
-//     artists: [{ name: "" }],
-//     duration_ms: 0
-//     },
-//     is_playing: "Paused",
-//     progress_ms: 0
-// }
-
 const Player = props => {
   const backgroundStyles = {
     backgroundImage:`url(${props.item.album.images[0].url})`,

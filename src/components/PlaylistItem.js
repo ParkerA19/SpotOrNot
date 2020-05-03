@@ -52,7 +52,7 @@ const styles = {
     flexWrap: 'wrap',
     display: 'flex',
     paddingTop: '5px',
-    paddingBottom: '10px',
+    paddingBottom: '10px'
   },
   name: {
     // color: '#FFFFFF',
@@ -92,7 +92,7 @@ const styles = {
   },
   playlistLink: {
     textDecoration: 'none',
-  },
+  }
 }
 
 export default PlaylistItem;

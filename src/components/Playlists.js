@@ -3,8 +3,6 @@ import * as $ from "jquery";
 import PlaylistItem from './PlaylistItem'
 import Playlist from './Playlist'
 import "../css/Player.css";
-import { render } from "@testing-library/react";
-import Navigation from "./Navigation";
 import { BrowserRouter  as Router, Link, Route} from 'react-router-dom';
 
 

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import * as $ from "jquery";
 import { BrowserRouter  as Router, Link, Route} from 'react-router-dom';
-import { authEndpoint, clientId, redirectUri, scopes, baseUri } from "./config";
 import hash from './hash';
 import './css/App.css';
 
@@ -12,9 +11,6 @@ import Player from './components/Player'
 // const auth = require('./authorization_code/auth');
 // var auth = require('./authorization_code/auth');
 // var express = require('express'); // Express web server framework
-
-var client_id = '***REMOVED***'; // Your client id
-var client_secret = '***REMOVED***'; // Your secret
 
 class App extends Component {
   constructor() {

@@ -24,6 +24,7 @@ const Navigation = props => {
           </Link>
         </SidebarItem>
       </Sidebar>
+      <Border/>
       <Main>
         {props.children}
       </Main>
@@ -38,10 +39,10 @@ const Root = (props) => (
   
   const Sidebar = (props) => (
     <div style={{
-      width: '10vw',
+      width: '9.5vw',
       height: '100vh',
       overflow: 'auto',
-      background:'#eee'
+      background:'#383838'
     }} {...props} />
   );
   
@@ -51,6 +52,15 @@ const Root = (props) => (
       textOverflow: 'ellipsis',
       overflow: 'hidden',
       padding: '5px 10px'
+    }} {...props} />
+  );
+
+  const Border = (props) => (
+    <div style={{
+      width: '1px',
+      height: '100vh',
+      overflow: 'auto',
+      background:'#828282'
     }} {...props} />
   );
   
