@@ -1,7 +1,6 @@
 import React from "react";
 import "../css/Player.css";
-import Navigation from "./Navigation";
-import { authEndpoint, clientId, redirectUri, scopes, baseUri } from "../config";
+import { authEndpoint, clientId, redirectUri, scopes } from "../config";
 import logo from '../static/logo.svg';
 
 // Props: token
@@ -27,7 +26,7 @@ const Home = props => {
           href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
             "%20"
           )}&response_type=token&show_dialog=true`}
-          target="_blank"
+          // target="_blank"
           rel="noopener noreferrer"
         >
           Login to Spotify

@@ -1,9 +1,7 @@
 import React from "react";
 import * as $ from "jquery";
-import PlaylistItem from './PlaylistItem'
 import "../css/Player.css";
-import { render } from "@testing-library/react";
-import Navigation from "./Navigation";
+import Tracks from './Tracks';
 import SpotifyPlayer from 'react-spotify-web-playback';
 
 // Props: {
@@ -16,7 +14,8 @@ class Playlists extends React.Component {
     super(props);
 
     this.state = {
-      tracks: []
+      tracks: [],
+      deviceId: '',
     };
   }
 
@@ -31,7 +30,7 @@ class Playlists extends React.Component {
   }
 
   getTracks(token, url) {
-    console.log('getting tracks')
+    // console.log('getting tracks')
     $.ajax({
       url: url,
       type: "GET",
@@ -46,20 +45,21 @@ class Playlists extends React.Component {
     })
   }
 
+  updateDeviceId = (deviceId) => {
+    this.setState({
+      deviceId: deviceId,
+    })
+  }
+
   render() {
+
+    // console.log('device id from playlists.js:', this.state.deviceId)
 
     const playlist = this.props.playlist;
     const imagesrc = playlist.images && playlist.images[0].url
-    console.log('playlist uri:', playlist.uri)
+    // console.log('playlist uri:', playlist.uri)
 
-    console.log(this.state.tracks)
-    const trackUris = this.state.tracks.map((t) => {
-      return t.track.uri
-    })
-
-    const options = {
-      context_uri: playlist.uri
-    }
+    // console.log(this.state.tracks)
 
     const player = (
       <SpotifyPlayer
@@ -67,10 +67,11 @@ class Playlists extends React.Component {
         // name={playlist.uri}
         uris={playlist.uri}
         // uris={['spotify:artist:6HQYnRM4OzToCYPpVBInuU']}
-        // options={options}
         play={false}
         showSaveIcon={true}
+        styles={styles.playerStyle}
         token={this.props.token}
+        sendDeviceID={this.updateDeviceId}
         // uris={trackUris}
       />
    );
@@ -82,20 +83,36 @@ class Playlists extends React.Component {
             {playlist.name}
           </div>
         </div>
-        {player}
+        {/* <div style={styles.tracks}> */}
+        <Tracks 
+          tracks={this.state.tracks}
+          deviceId={this.state.deviceId}
+          collaborative={playlist.collaborative}
+          contextUri={playlist.uri}
+          token={this.props.token}
+        />
+        {/* </div>/ */}
+        <div style={styles.player}>
+          {player}
+        </div>
       </div>
     );
   }
 }
 
 const styles = {
+  calendarLogo: {
+    height: '20px',
+    width: '20px',
+  },
   image: {
     height: '300px',
     width: '300px',
+    padding: '12px',
   },
   info: {
     color: '#FFFAFA',
-    padding: '10px',
+    padding: '12px',
     // alignItems: 'center',
     // justifyContent: 'center',
   },
@@ -103,9 +120,15 @@ const styles = {
     background: '#383838',
     display: 'flex',
     flexDirection: 'column',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   player: {
+    position: 'fixed',
+    bottom: 0,
+    width: '90vw',
+  },
+  playerStyle: {
+    display: 'flex',
     bgColor: '#333',
     color: '#fff',
     loaderColor: '#fff',
@@ -116,7 +139,14 @@ const styles = {
   },
   top: {
     display: 'flex',
+    // position: 'sticky',
+    // top: 0,
+    // zIndex: 100,
   },
+  tracks: {
+    position: 'relative',
+    top: 324,
+  }
 }
 
 export default Playlists;
