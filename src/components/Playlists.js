@@ -42,7 +42,7 @@ class Playlists extends React.Component {
   getPlaylists(token) {
     console.log('getting playlists')
     $.ajax({
-      url: "https://api.spotify.com/v1/me/playlists?limit=5",
+      url: "https://api.spotify.com/v1/me/playlists?limit=10",
       type: "GET",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);

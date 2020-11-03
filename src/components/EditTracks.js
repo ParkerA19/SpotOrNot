@@ -8,15 +8,139 @@ import EditTrack from './EditTrack'
 //   tracks: []
 // }
 
-class Playlists extends React.Component {
+class EditTracks extends React.Component {
   constructor(props) {
     super(props);
 
+    const trackState = props.tracks.map((t, i) => {
+      return {
+        track: t,
+        index: i,
+      };
+    })
+
     this.state = {
-      keep: props.tracks,
+      keep: trackState,
       remove: [],
-      keepIndices: [],
     };
+  }
+
+  // toggleKeep(index, shouldKeep) {
+  //   // console.log('index:', index, shouldKeep);
+  //   if (shouldKeep) { // moving from remove to keep
+  //     const remove = this.state.remove;
+  //     const newKeep = remove.splice(index, 1);
+  //     const keep = this.state.keep;
+
+
+  //     const keepIndex = this.state.keepIndices[index]
+  //     keep.splice(keepIndex, 0, newKeep[0]);
+  //     const newKeepIndices = this.state.keepIndices;
+  //     newKeepIndices.splice(index, 1);
+  //     const finalKeepIndices = newKeepIndices.map((val, i) => {
+  //       console.log('val:', val, 'i:', i, 'keepIndex:', keepIndex);
+  //       if (val > keepIndex) {
+  //         return val + 1
+  //       } else if (val == keepIndex && i < index) {
+  //         return val + 1
+  //       }
+  //       return val
+  //     });
+  //     console.log(finalKeepIndices);
+  //     this.setState({
+  //       // keep: this.state.keep,
+  //       remove: remove,
+  //       keepIndices: finalKeepIndices,
+  //     });
+  //   } else { // moving from keep to remove
+  //     const keep = this.state.keep;
+  //     const newRemove = keep.splice(index, 1);
+  //     const remove = this.state.remove.concat(newRemove);
+  //     const newIndex = [index];
+  //     const keepIndices = this.state.keepIndices.concat(newIndex);
+  //     const finalKeepIndices = keepIndices.map((val, i) => {
+  //       console.log('val:', val, 'i:', i, 'index:', index);
+  //       if (val > index) {
+  //         return val - 1
+  //       }
+  //       return val
+  //     });
+  //     this.setState({
+  //       keep: keep,
+  //       remove: remove,
+  //       keepIndices: finalKeepIndices,
+  //     });
+  //   }
+  // }
+
+  findSortIndex(sortVal, keep) {
+    var trackList;
+    if (keep) {
+      // console.log('remove -> keep')
+      trackList = this.state.keep;
+    } else {
+      // console.log('keep -> remove')
+      trackList = this.state.remove;
+    }
+
+    const maxIndex = trackList.length - 1;
+    var length = trackList.length;
+    // console.log('length:', length);
+
+    if (length == 0) {
+      return 0;
+    }
+
+    var i = Math.floor(length / 2);
+    // console.log('i:', i);
+    var offset = 0;
+
+    var checkIndex;
+    var halfLength;
+
+    while (true) {
+      // console.log('offset:', offset);
+      i += offset;
+      // console.log('i in loop:', i);
+      if (length == 0) {
+        return i;
+      }
+      halfLength = Math.floor(length / 2);
+      checkIndex = trackList[i].index;
+      // console.log('length in loop:', length);
+      if (sortVal > checkIndex) {
+        // console.log('greater than')
+        if (length == 1) {
+          // console.log('length is 1');
+          return i + 1;
+        }
+        if (length % 2 == 0) {
+          // console.log('even length');
+          length = halfLength - 1;  // set the new length
+          offset = Math.floor(length / 2) + 1;  // Calculate the offset
+        } else {
+          // console.log('odd length');
+          length = halfLength;
+          offset = Math.floor(length / 2) + 1;
+        }
+      } else if (sortVal < checkIndex) {
+        // console.log('less than');
+        if (length == 1) {
+          // console.log('length is 1')
+          return i;
+        }
+        length = halfLength;
+        if (length % 2 == 0) {
+          // console.log('even length');
+          // length = halfLength;  // set the new length
+          offset = -Math.floor(length / 2);  // Calculate the offset
+        } else {
+          // console.log('odd length');
+          // length = halfLength;
+          offset = -(Math.floor(length / 2) + 1);
+        }
+      }
+    }
   }
 
   toggleKeep(index, shouldKeep) {
@@ -24,41 +148,34 @@ class Playlists extends React.Component {
     if (shouldKeep) { // moving from remove to keep
       const remove = this.state.remove;
       const newKeep = remove.splice(index, 1);
-      const keep = this.state.keep;
 
+      const sortIndex = this.findSortIndex(newKeep[0].index, true)
+      // console.log('sortIndex:', sortIndex);
+      const keep = this.state.keep
+      keep.splice(sortIndex, 0, newKeep[0]);
 
-      const keepIndex = this.state.keepIndices[index]
-      keep.splice(keepIndex, 0, newKeep[0]);
-      const newKeepIndices = this.state.keepIndices;
-      newKeepIndices.splice(index, 1);
-      const finalKeepIndices = newKeepIndices.map((val, i) => {
-        console.log('val:', val, 'i:', i, 'keepIndex:', keepIndex);
-        if (val > keepIndex && i >= index) {
-          return val + 1
-        }
-        return val
-      });
-      console.log(finalKeepIndices);
       this.setState({
-        // keep: this.state.keep,
+        keep: keep,
         remove: remove,
-        keepIndices: finalKeepIndices,
       });
     } else { // moving from keep to remove
       const keep = this.state.keep;
       const newRemove = keep.splice(index, 1);
-      const remove = this.state.remove.concat(newRemove);
-      const newIndex = [index];
-      const keepIndices = this.state.keepIndices.concat(newIndex);
+
+      const sortIndex = this.findSortIndex(newRemove[0].index, false)
+      // console.log('sortIndex:', sortIndex);
+      const remove = this.state.remove
+      remove.splice(sortIndex, 0, newRemove[0]);
+
       this.setState({
         keep: keep,
         remove: remove,
-        keepIndices: keepIndices,
       });
     }
   }
 
   render() {
+    // console.log('state:', this.state);
     const labels = (
       <div>
         <div style={styles.labels}>
@@ -85,7 +202,7 @@ class Playlists extends React.Component {
       return (
         <div key={t.track.id}>
           <EditTrack
-            track={t}
+            track={t.track}
             index={index}
             token={this.props.token}
             deviceId={this.props.deviceId}
@@ -105,7 +222,7 @@ class Playlists extends React.Component {
       return (
         <div key={t.track.id}>
           <EditTrack
-            track={t}
+            track={t.track}
             index={index}
             token={this.props.token}
             deviceId={this.props.deviceId}
@@ -181,4 +298,4 @@ const styles = {
   },
 }
 
-export default Playlists;
+export default EditTracks;

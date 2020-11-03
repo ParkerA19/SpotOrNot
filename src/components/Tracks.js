@@ -8,7 +8,7 @@ import Track from './Track'
 //   tracks: []
 // }
 
-class Playlists extends React.Component {
+class Tracks extends React.Component {
   render() {
     console.log('render those tracks');
     const labels = (
@@ -98,4 +98,4 @@ const styles = {
   },
 }
 
-export default Playlists;
+export default Tracks;

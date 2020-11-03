@@ -1,13 +1,8 @@
 import React from "react";
 import * as $ from "jquery";
 import "../css/Player.css";
-// import play from "../../node_modules/react-spotify-web-playback/lib/spotify"
-// import LinesEllipsis from 'react-lines-ellipsis'
-// import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC'
 
-// const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis)
-
-// const propsType =  {
+// type Props =  {
 //   collaborative: bool,
 //   index: int,
 //   contextUri: index
@@ -29,7 +24,7 @@ import "../css/Player.css";
 //   },
 // }
 
-class Track extends React.Component {
+class EditTrack extends React.Component {
   constructor(props) {
     super(props);
 
@@ -38,45 +33,7 @@ class Track extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   // console.log('props token:', this.props.token)
-  //   // console.log('collab:', this.props.collaborative)
-  //   // console.log('track:', this.props.track)
-  //   this.playTrack = this.playTrack.bind(this)
-  //   if (this.props.token && this.props.collaborative && this.props.track.added_by) {
-  //     this.getAddedBy = this.getAddedBy.bind(this)
-  //     this.getAddedBy(this.props.token, this.props.track.added_by.href)
-  //   }
-  //   else {
-  //     if (this.props.collaborative) {
-  //       console.log('No token or added_by user. Could not get user')
-  //     }
-  //   }
-  // }
-
-  // getAddedBy(token, url) {
-  //   console.log('getting addedby user')
-  //   $.ajax({
-  //     url: url,
-  //     type: "GET",
-  //     beforeSend: xhr => {
-  //       xhr.setRequestHeader("Authorization", "Bearer " + token);
-  //     },
-  //     success: data => {
-  //       this.setState({
-  //         addedBy: data,
-  //         // addedBy: {
-  //         //   displayName: data.display_name,
-  //         //   href: data.href,
-  //         //   id: data.id,
-  //         // },
-  //       })
-  //     }
-  //   })
-  // }
-
   playTrack() {
-    // console.log('play track from tracks!')
     var body = JSON.stringify({ context_uri: this.props.contextUri, offset: { position: this.props.index } })
 
     $.ajax({
@@ -93,17 +50,6 @@ class Track extends React.Component {
         // console.log(data)
       }
     })
-
-    // fetch("https://api.spotify.com/v1/me/player/play?device_id=" + this.props.deviceId, {
-    //   body: body,
-    //   headers: {
-    //     Authorization: "Bearer " + this.props.token,
-    //     'Content-Type': 'application/json',
-    //   },
-    //   method: 'PUT',
-    // })
-    // .then(res => res.json())
-    // .then(result => console.log(result))
   }
 
   render() {
@@ -199,4 +145,4 @@ const styles = {
   },
 }
 
-export default Track;
+export default EditTrack;

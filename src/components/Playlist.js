@@ -10,7 +10,7 @@ import SpotifyPlayer from 'react-spotify-web-playback';
 //   playlist: []
 // }
 
-class Playlists extends React.Component {
+class Playlist extends React.Component {
   constructor(props) {
     super(props);
 
@@ -61,6 +61,10 @@ class Playlists extends React.Component {
     })
   }
 
+  removeTracks = () => {
+    this.toggleEditMode();
+  }
+
   updateDeviceId = (deviceId) => {
     this.setState({
       deviceId: deviceId,
@@ -74,7 +78,17 @@ class Playlists extends React.Component {
     const playlist = this.props.playlist;
     const imagesrc = playlist.images && playlist.images[0].url
 
-    const editButtonText = this.state.editMode ? 'Done Editing' : 'Edit Playlist';
+    const editButtonText = this.state.editMode ? 'Cancel' : 'Edit Playlist';
+
+    const removeTracksButton = (
+      this.state.editMode ? (
+        <button
+          style={styles.removeSongsButton}
+          onClick={this.removeTracks}>
+          Remove Tracks from Playlist
+        </button>
+      ) : null
+    );
 
     const header =
       <div style={styles.top}>
@@ -83,6 +97,7 @@ class Playlists extends React.Component {
           {playlist.name}
           <button style={styles.editButton} onClick={this.toggleEditMode}>{editButtonText}</button>
         </div>
+        {removeTracksButton}
       </div>;
     // console.log('playlist uri:', playlist.uri)
 
@@ -176,6 +191,14 @@ const styles = {
     trackArtistColor: '#ccc',
     trackNameColor: '#fff',
   },
+  removeSongsButton: {
+    fontSize: 30,
+    backgroundColor: 'red',
+    marginTop: 10,
+    position: 'relative',
+    top: 240,
+    height: 50,
+  },
   top: {
     display: 'flex',
     // position: 'sticky',
@@ -188,4 +211,4 @@ const styles = {
   }
 }
 
-export default Playlists;
+export default Playlist;
