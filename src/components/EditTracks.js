@@ -1,4 +1,5 @@
 import React from "react";
+import * as $ from "jquery";
 import "../css/Player.css";
 import calendar from "../static/calendar.svg";
 import EditTrack from './EditTrack'
@@ -23,6 +24,52 @@ class EditTracks extends React.Component {
       keep: trackState,
       remove: [],
     };
+  }
+
+  componentDidUpdate() {
+    if (this.props.removeTracks) {
+      this.removeTracks();
+      // this.props.endRemoveTracks()
+    }
+  }
+
+  removeTracks() {
+    console.log('gonna remove the tracks now');
+
+    var rTracks = this.state.remove.map((t, i) => {
+      return {
+        uri: t.track.track.uri,
+        positions: [t.index],
+      };
+    });
+
+    console.log('rTracks:', rTracks);
+
+    var body = JSON.stringify({
+      tracks: rTracks
+    })
+
+    console.log('body:', body);
+
+    var url = 'https://api.spotify.com/v1/playlists/' + this.props.playlistID + '/tracks';
+    console.log('url:', url);
+
+
+    $.ajax({
+      url: 'https://api.spotify.com/v1/playlists/' + this.props.playlistID + '/tracks',
+      type: 'DELETE',
+      data: body,
+      dataType: 'json',
+      beforeSend: xhr => {
+        xhr.setRequestHeader("Authorization", "Bearer " + this.props.token);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Accept", "application/json");
+      },
+      success: data => {
+        console.log('delete data:', data);
+        this.props.endRemoveTracks();
+      }
+    })
   }
 
   // toggleKeep(index, shouldKeep) {
@@ -197,13 +244,13 @@ class EditTracks extends React.Component {
       // console.log(this.state.tracks)
       // console.log(t.track.name)
       // console.log('playlist:', playlist)
-      // console.log('track index:', t.track.name, index);
+      // console.log('track index:', t.track.track.name, index);
       // console.log(t);
       return (
         <div key={t.track.id}>
           <EditTrack
             track={t.track}
-            index={index}
+            index={t.index}
             token={this.props.token}
             deviceId={this.props.deviceId}
             contextUri={this.props.contextUri}
@@ -217,13 +264,14 @@ class EditTracks extends React.Component {
 
     const removeTracks = this.state.remove.map((t, index) => {
       // console.log(this.state.tracks)
+      // console.log('rTrack:', t);
       // console.log(t.track.name)
       // console.log('playlist:', playlist)
       return (
         <div key={t.track.id}>
           <EditTrack
             track={t.track}
-            index={index}
+            index={t.index}
             token={this.props.token}
             deviceId={this.props.deviceId}
             contextUri={this.props.contextUri}

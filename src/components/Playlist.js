@@ -18,6 +18,8 @@ class Playlist extends React.Component {
       editMode: false,
       tracks: [],
       deviceId: '',
+      removeTracks: false,
+      shouldUpdatee: false,
     };
   }
 
@@ -31,7 +33,13 @@ class Playlist extends React.Component {
     }
   }
 
-  getTracks(token, url) {
+  componentDidUpdate() {
+    if (this.props.token && this.props.playlist.tracks && this.state.shouldUpdate) {
+      this.getTracks(this.props.token, this.props.playlist.tracks.href, true)
+    }
+  }
+
+  getTracks(token, url, refresh = false) {
     // console.log('getting tracks')
     $.ajax({
       url: url,
@@ -42,11 +50,19 @@ class Playlist extends React.Component {
         xhr.setRequestHeader("Accept", "application/json");
       },
       success: data => {
-        // console.log(data)
-        const newItems = this.state.tracks.concat(data.items)
-        this.setState({
-          tracks: newItems,
-        })
+        if (refresh) {
+          // start from scratch
+          this.setState({
+            tracks: data.items,
+            shouldUpdate: false,
+          });
+        } else {
+          // console.log(data)
+          const newItems = this.state.tracks.concat(data.items)
+          this.setState({
+            tracks: newItems,
+          })
+        }
         // This allows you to get all the tracks in the playlist
         if (data.next) {
           this.getTracks(token, data.next)
@@ -58,22 +74,34 @@ class Playlist extends React.Component {
   toggleEditMode = () => {
     this.setState({
       editMode: !this.state.editMode,
-    })
+    });
   }
 
-  removeTracks = () => {
-    this.toggleEditMode();
+  startRemoveTracks = () => {
+    this.setState({
+      removeTracks: true,
+    });
+  }
+
+  endRemoveTracks = () => {
+    console.log('onEndRemoveTracks');
+    this.setState({
+      editMode: false,
+      removeTracks: false,
+      shouldUpdate: true,
+    });
   }
 
   updateDeviceId = (deviceId) => {
     this.setState({
       deviceId: deviceId,
-    })
+    });
   }
 
   render() {
 
     // console.log('device id from playlists.js:', this.state.deviceId)
+    // console.log('playlist:', this.props.playlist);
 
     const playlist = this.props.playlist;
     const imagesrc = playlist.images && playlist.images[0].url
@@ -84,7 +112,7 @@ class Playlist extends React.Component {
       this.state.editMode ? (
         <button
           style={styles.removeSongsButton}
-          onClick={this.removeTracks}>
+          onClick={this.startRemoveTracks}>
           Remove Tracks from Playlist
         </button>
       ) : null
@@ -107,9 +135,12 @@ class Playlist extends React.Component {
       <EditTracks
         tracks={this.state.tracks}
         deviceId={this.state.deviceId}
+        playlistID={playlist.id}
         collaborative={playlist.collaborative}
         contextUri={playlist.uri}
         token={this.props.token}
+        removeTracks={this.state.removeTracks}
+        endRemoveTracks={this.endRemoveTracks}
       /> :
       <Tracks
         tracks={this.state.tracks}

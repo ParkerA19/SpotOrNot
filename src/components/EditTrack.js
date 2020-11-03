@@ -27,13 +27,20 @@ import "../css/Player.css";
 class EditTrack extends React.Component {
   constructor(props) {
     super(props);
+    this.playTrack = this.playTrack.bind(this);
 
     this.state = {
       keep: true,
     };
   }
 
+  componentDidMount() {
+    console.log('component did mount');
+  }
+
   playTrack() {
+    console.log('playTrack start');
+    console.log('playTrack index:', this.props.index);
     var body = JSON.stringify({ context_uri: this.props.contextUri, offset: { position: this.props.index } })
 
     $.ajax({
