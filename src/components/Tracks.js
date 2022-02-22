@@ -8,12 +8,9 @@ import Track from './Track'
 //   tracks: []
 // }
 
-class Playlists extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+class Tracks extends React.Component {
   render() {
+    console.log('render those tracks');
     const labels = (
       <div>
         <div style={styles.labels}>
@@ -27,20 +24,20 @@ class Playlists extends React.Component {
             <div style={styles.labelsUser}>
               User
             </div>) : null}
-          <div stylex={styles.labelsCalendar}>
-            <img style={styles.calendarLogo} src={calendar}/>
+          <div style={styles.labelsCalendar}>
+            <img style={styles.calendarLogo} src={calendar} />
           </div>
         </div>
         <div style={styles.underline}></div>
       </div>
     );
 
-    const tracks = this.props.tracks.map((t,index) => {
+    const tracks = this.props.tracks.map((t, index) => {
       // console.log(this.state.tracks)
       // console.log(t.track.name)
       // console.log('playlist:', playlist)
       return (
-        <div key={t.track.id}> 
+        <div key={t.track.id}>
           <Track
             track={t}
             index={index}
@@ -55,7 +52,7 @@ class Playlists extends React.Component {
     });
 
     return (
-      <div>
+      <div style={styles.container}>
         {labels}
         {tracks}
       </div>
@@ -68,8 +65,11 @@ const styles = {
     height: '20px',
     width: '20px',
   },
+  container: {
+    marginBottom: '50px',
+  },
   labels: {
-    background: '#383838',
+    background: '#212121',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -98,4 +98,4 @@ const styles = {
   },
 }
 
-export default Playlists;
+export default Tracks;

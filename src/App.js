@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import * as $ from "jquery";
-import { BrowserRouter  as Router, Link, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import hash from './hash';
 import './css/App.css';
 
 import Home from './components/Home'
 import Navigation from "./components/Navigation";
-import Playlists from './components/Playlists'
-import Player from './components/Player'
+import Playlists from './components/Playlists';
+import Player from './components/Player';
 // const auth = require('./authorization_code/auth');
 // var auth = require('./authorization_code/auth');
 // var express = require('express'); // Express web server framework
@@ -40,7 +40,7 @@ class App extends Component {
       // Set token
       this.setState({
         token: _token
-      },() => {
+      }, () => {
         localStorage.setItem('token', this.state.token)
       });
       // this.getCurrentlyPlaying(_token);
@@ -71,11 +71,11 @@ class App extends Component {
 
     return (
       <Router>
-        <Navigation> 
+        <Navigation>
           <div>
             <Route exact={true} path={welcomePaths} render={() => (
               <Home token={this.state.token} />
-            )}/>
+            )} />
             <Route path='/Player' render={() => (
               <Player
                 item={this.state.item}
@@ -83,12 +83,12 @@ class App extends Component {
                 progress_ms={this.state.progress_ms}
                 token={this.state.token}
               />
-            )}/>
+            )} />
             <Route path='/Playlists' render={() => (
               <Playlists
                 token={this.state.token}
               />
-            )}/>
+            )} />
           </div>
         </Navigation>
       </Router>

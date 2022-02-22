@@ -42,7 +42,7 @@ const Root = (props) => (
       width: '9.5vw',
       height: '100vh',
       overflow: 'auto',
-      background:'#383838'
+      background:'#212121'
     }} {...props} />
   );
   

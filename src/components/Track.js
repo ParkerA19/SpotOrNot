@@ -156,7 +156,7 @@ class Track extends React.Component {
 
 const styles = {
   layout: {
-    background: '#383838',
+    background: '#212121',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',

@@ -3,7 +3,7 @@ import * as $ from "jquery";
 import PlaylistItem from './PlaylistItem'
 import Playlist from './Playlist'
 import "../css/Player.css";
-import { BrowserRouter  as Router, Link, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 
 
 class Playlists extends React.Component {
@@ -42,7 +42,7 @@ class Playlists extends React.Component {
   getPlaylists(token) {
     console.log('getting playlists')
     $.ajax({
-      url: "https://api.spotify.com/v1/me/playlists?limit=5",
+      url: "https://api.spotify.com/v1/me/playlists?limit=10",
       type: "GET",
       beforeSend: xhr => {
         xhr.setRequestHeader("Authorization", "Bearer " + token);
@@ -76,7 +76,7 @@ class Playlists extends React.Component {
       return (
         <Route key={p.id} path={path} render={() => (
           <Playlist token={this.props.token} playlist={p} />
-        )}/>
+        )} />
       );
     })
 
@@ -87,7 +87,7 @@ class Playlists extends React.Component {
           <div style={styles.layout}>
             {playlists}
           </div>
-        )}/>
+        )} />
         {playlistPage}
       </div>
       // </Navigation>
