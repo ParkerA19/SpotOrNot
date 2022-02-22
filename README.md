@@ -1,6 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## DEMO
+For a better quality video, check out the demo.mov file
 https://user-images.githubusercontent.com/29246865/155082912-a5ecab06-dfdb-477f-9a89-af3449bd8749.mov
 
 ## Available Scripts
